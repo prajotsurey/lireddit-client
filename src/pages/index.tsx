@@ -1,4 +1,4 @@
-import { Box, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from 'next/link';
 import React from "react";
@@ -14,11 +14,16 @@ const Index = () => {
   });
   return (
     <Layout>
-      <NextLink href="/create-post">
-        <Link>
-         create post
-        </Link>
-      </NextLink>
+      <Flex align="center">
+        <Heading>
+          LiReddit
+        </Heading>
+          <NextLink href="/create-post">
+            <Link ml="auto">
+            create post
+            </Link>
+          </NextLink>
+      </Flex>
       {!data ? (
       <div>loading...</div>
       ) : (
