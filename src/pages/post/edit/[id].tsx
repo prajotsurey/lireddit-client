@@ -1,14 +1,13 @@
 import { Box, Button } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 import { withUrqlClient } from 'next-urql';
-import router, { useRouter } from 'next/router';
-import React from 'react'
+import { useRouter } from 'next/router';
+import React from 'react';
 import { InputField } from '../../../components/InputField';
 import { Layout } from '../../../components/Layout';
 import { usePostQuery, useUpdatePostMutation } from '../../../generated/graphql';
 import { createUrqlClient } from '../../../utils/createUrqlClient';
 import { useGetIntId } from '../../../utils/useGetIntId';
-import { useGetPostFromUrl } from '../../../utils/useGetPostFromUrl';
 
 
 const EditPost = ({}) => {
@@ -44,12 +43,8 @@ const EditPost = ({}) => {
         <Formik 
           initialValues={{ title: data.post.title, text: data.post.text}}
           onSubmit={async (values, {setErrors}) => {
-            // const {error} = await createPost({ input : values });
-            // if (!error) {
-            //   router.push('/')
-            // }
             await updatePost({id: intId, ...values})
-            router.push('/');
+            router.back();
             }
           }
         > 

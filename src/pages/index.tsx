@@ -1,12 +1,11 @@
-import { ChevronDownIcon, ChevronUpIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Heading, Icon, IconButton, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from 'next/link';
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
 import { Layout } from "../components/Layout";
 import { UpdootSection } from "../components/UpdootSection";
-import { useDeletePostMutation, useMeQuery, usePostsQuery } from "../generated/graphql";
+import { useMeQuery, usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
@@ -19,7 +18,6 @@ const Index = () => {
     variables
   });
 
-  const [, deletePost ] = useDeletePostMutation()
 
 
   if(!fetching && !data) {
@@ -45,22 +43,12 @@ const Index = () => {
                 <Text>{p.creator.username}</Text>
                 <Flex align="center">
                   <Text flex={1} mt={4}>{p.textSnippet}</Text>
-                  {meData?.me?.id !== p.creator.id ? null : <Box ml="auto">
-                    <NextLink href={`/post/edit/${p.id}`}>
-                      <IconButton
-                        mr={4}
-                        aria-label="Edit Post"
-                        icon={<EditIcon/>}
+                  <Box ml='auto'>
+                    <EditDeletePostButtons 
+                      id={p.id}
+                      creatorId={p.creator.id}
                       />
-                    </NextLink>
-                    <IconButton 
-                      aria-label="Delete Post"
-                      icon={<DeleteIcon/>}
-                      onClick={() => {
-                        deletePost({id: p.id});
-                      }}
-                    />
-                  </Box>}
+                  </Box>
                 </Flex>
               </Box>
             </Flex>
