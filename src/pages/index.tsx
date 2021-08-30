@@ -5,17 +5,18 @@ import React, { useState } from "react";
 import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
 import { Layout } from "../components/Layout";
 import { UpdootSection } from "../components/UpdootSection";
-import { useMeQuery, usePostsQuery } from "../generated/graphql";
+import { PostQuery, useMeQuery, usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
-  const [variables, setVariables] = useState({
-    limit: 10,
-    cursor : null as null | string
-  });
+
   const { data: meData } = useMeQuery();
-  const {data, error,loading} = usePostsQuery({
-    variables
+  const {data, error,loading, fetchMore, variables} = usePostsQuery({
+    variables:{
+      limit: 10,
+      cursor : null as null | string
+    },
+    notifyOnNetworkStatusChange: true,
   });
 
 
@@ -63,15 +64,33 @@ const Index = () => {
       {data && data.posts.hasMore ? (
         <Flex>
           <Button onClick={() => {
-            // console.log("limit: ",variables.limit)
-            // console.log("cursor: ",data.posts[data.posts.length - 1].createdAt)
-            // console.log("data: ", data.posts[data.posts.length - 1])
-            setVariables(
-              {
-                limit: variables.limit,
-                cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-              }
-            )
+            fetchMore({
+              variables: {
+                limit: variables?.limit,
+                cursor:
+                  data.posts.posts[data.posts.posts.length - 1].createdAt,
+              },
+              // updateQuery: (
+              //   previousValue, 
+              //   {fetchMoreResult}
+              //   ): PostQuery => {
+              //   if (!fetchMoreResult) {
+              //     return previousValue as PostQuery;
+              //   }
+
+              //   return{
+              //     __typename: "Query",
+              //     posts: {
+              //       __typename: "PaginatedPosts",
+              //       hasMore: (fetchMoreResult as PostQuery).posts.hasMore,
+              //       posts: [
+              //         ...(previousValue as PostQuery).posts.posts,
+              //         ...(fetchMoreResult as PostQuery).posts.posts,
+              //       ]
+              //     }
+              //   }
+              // }
+            });
           }} isLoading={loading} m='auto' my={8}>
             load more
           </Button>
