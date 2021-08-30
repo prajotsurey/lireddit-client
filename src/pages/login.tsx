@@ -9,6 +9,8 @@ import { useRouter } from 'next/dist/client/router';
 import { withUrqlClient } from 'next-urql';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import NextLink from 'next/link'
+import { withApollo } from "../utils/withApollo";
+
 
 
 interface registerProps {
@@ -70,4 +72,4 @@ export const Login: React.FC<{}> = ({}) => {
     )
 }
 
-export default Login;
+export default withApollo({ ssr: false})(Login);

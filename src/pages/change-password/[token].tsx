@@ -10,6 +10,7 @@ import { Wrapper } from '../../components/Wrapper';
 import { useChangePasswordMutation } from '../../generated/graphql';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import { toErrorMap } from '../../utils/toErrorMap';
+import { withApollo } from '../../utils/withApollo';
 
 export const ChangePassword: NextPage<{token: string} > = () => {
   const router = useRouter();
@@ -69,4 +70,4 @@ export const ChangePassword: NextPage<{token: string} > = () => {
   )
 }
 
-export default ChangePassword; 
+export default withApollo({srr: false})(ChangePassword); 

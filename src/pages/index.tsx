@@ -7,6 +7,7 @@ import { Layout } from "../components/Layout";
 import { UpdootSection } from "../components/UpdootSection";
 import { PostQuery, useMeQuery, usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import { withApollo } from "../utils/withApollo";
 
 const Index = () => {
 
@@ -100,4 +101,4 @@ const Index = () => {
   )
 }
 
-export default Index;
+export default withApollo({ ssr: true })(Index);

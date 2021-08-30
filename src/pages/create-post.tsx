@@ -1,5 +1,7 @@
 import { Box, Button } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { withApollo } from "../utils/withApollo";
+
 import { withUrqlClient } from 'next-urql';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -55,4 +57,4 @@ const createPost: React.FC<{}> = ({}) => {
     );
 }
 
-export default createPost ;
+export default withApollo({ ssr: false})(createPost) ;
