@@ -70,27 +70,7 @@ const Index = () => {
                 limit: variables?.limit,
                 cursor:
                   data.posts.posts[data.posts.posts.length - 1].createdAt,
-              },
-              // updateQuery: (
-              //   previousValue, 
-              //   {fetchMoreResult}
-              //   ): PostQuery => {
-              //   if (!fetchMoreResult) {
-              //     return previousValue as PostQuery;
-              //   }
-
-              //   return{
-              //     __typename: "Query",
-              //     posts: {
-              //       __typename: "PaginatedPosts",
-              //       hasMore: (fetchMoreResult as PostQuery).posts.hasMore,
-              //       posts: [
-              //         ...(previousValue as PostQuery).posts.posts,
-              //         ...(fetchMoreResult as PostQuery).posts.posts,
-              //       ]
-              //     }
-              //   }
-              // }
+              }
             });
           }} isLoading={loading} m='auto' my={8}>
             load more
