@@ -13,18 +13,18 @@ import { toErrorMap } from '../../utils/toErrorMap';
 
 export const ChangePassword: NextPage<{token: string} > = () => {
   const router = useRouter();
-  const [,changePassword] = useChangePasswordMutation();
+  const [changePassword] = useChangePasswordMutation();
   const [tokenError, setTokenError] = useState('');
   return (
     <Wrapper variant="small">
       <Formik 
         initialValues={{ newPassword: ""}}
         onSubmit={async (values, {setErrors}) => {
-          const response = await changePassword({
+          const response = await changePassword({variables :{
             newPassword: values.newPassword,
             token:
               typeof router.query.token === "string" ? router.query.token : "",
-          });
+          }});
           if(response.data?.changePassword.errors) {
             const errorMap = toErrorMap(response.data.changePassword.errors)
             if ('token' in errorMap) {
@@ -69,4 +69,4 @@ export const ChangePassword: NextPage<{token: string} > = () => {
   )
 }
 
-export default withUrqlClient(createUrqlClient, {ssr: false})(ChangePassword); 
+export default ChangePassword; 

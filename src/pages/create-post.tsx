@@ -12,14 +12,14 @@ import { useIsAuth } from '../utils/useIsAuth';
 const createPost: React.FC<{}> = ({}) => {
   const router = useRouter();
   useIsAuth();
-  const [, createPost] = useCreatePostMutation();
+  const [createPost] = useCreatePostMutation();
     return (
       <Layout variant="small">
         <Formik 
           initialValues={{ title: "", text: ""}}
           onSubmit={async (values, {setErrors}) => {
-            const {error} = await createPost({ input : values });
-            if (!error) {
+            const { errors } = await createPost({variables: { input : values }});
+            if (!errors) {
               router.push('/')
             }
             }
@@ -55,4 +55,4 @@ const createPost: React.FC<{}> = ({}) => {
     );
 }
 
-export default withUrqlClient(createUrqlClient)(createPost) ;
+export default createPost ;
