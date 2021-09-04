@@ -1,0 +1,3 @@
+# lireddit-client
+
+yarn dev
